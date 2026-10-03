@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscription Management System</title>
+  <style>
+    form {
+      width: 600px;
+      padding: 10px;
+      margin: 0 auto;
+      font-size: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .inputs {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    input,
+    select {
+      flex: 1;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+
+<body>
+  <form action="">
+    <div class="inputs">
+      <label for="">cutomerName : </label>
+      <input type="text" id="cutomerName">
+    </div>
+    <div class="inputs">
+      <label for="subscriptionType">subscriptionType</label>
+      <select name="subscriptionType" id="subscriptionType">
+
+        <option value="">subscriptionType</option>
+        <option value="Basic">Basic</option>
+        <option value="Pro">Pro</option>
+        <option value="Premium">Premium</option>
+      </select>
+    </div>
+    <div class="inputs">
+      <label for="">months</label>
+      <input type="number" id="months">
+    </div>
+    <div class="inputs">
+      <label for="">discountCoupon</label>
+      <input type="text" id="discountCoupon">
+    </div>
+    <button id="add">add</button>
+  </form>
+  <div id="viwe">
+
+  </div>
+
+
+  <script>
+    let add = document.getElementById("add");
+    let viwe = document.getElementById("viwe");
+
+    add.addEventListener("click", (e) => {
+      e.preventDefault()
+      //inputs
+      let cutomerName = document.getElementById("cutomerName").value;//اسم العميل
+      let subscription = document.getElementById("subscriptionType").value;//نوع الاشتراك
+      let months = document.getElementById("months");
+      let discountCoupon = document.getElementById("discountCoupon");
+      let total = 0
+      let dis12 = 0
+      let finalPrice = 0;
+      subscriptionValue = {
+        Basic: 150,
+        Pro: 350,
+        Premium: 600
+      }
+      let subscrip = subscriptionValue[subscription]
+      months = months.value
+      if (isNaN(months) || months <= 0) {
+        viwe.innerHTML = "<h2>⚠️ عدد الشهور يجب أن يكون أكبر من صفر</h2>";
+        return
+      }
+
+      discountCoupon = discountCoupon.value
+      total = months * subscrip
+      finalPrice = total;
+
+      if (months >= 12) {
+        dis12 = total * 0.20
+        finalPrice = finalPrice - dis12
+      }
+      let Coupon = 0;
+      if (discountCoupon.trim().toLowerCase() === "yes") {
+        Coupon = total * 0.05
+        finalPrice = finalPrice - Coupon
+      }
+      let discount = dis12 + Coupon
+
+      viwe.innerHTML = `
+        <h1>cutomerName : ${cutomerName}</h1>
+        <h1>subscription : ${subscription}</h1>
+        <h1>subscrip : ${subscrip}</h1>
+        <h1>Alldiscount : ${discount}</h1>
+        <h1>Coupon : ${Coupon}</h1>
+        <h1>months : ${months}</h1>
+        <h1>total : ${total}</h1>
+        <h1>dis12 : ${dis12}</h1>
+        <h1>finalPrice : ${finalPrice}</h1>
+        `
+    })
+
+  </script>
+</body>
+
+</html>
